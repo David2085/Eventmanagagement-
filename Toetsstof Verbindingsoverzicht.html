@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toetsstof – Verbindingsoverzicht Evenementenmanagement A</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #222; font-size: 14px; line-height: 1.5; }
+
+  header { background: #1a2a4a; color: white; padding: 24px 32px; }
+  header h1 { font-size: 22px; font-weight: 700; }
+  header p { color: #adc4e8; font-size: 13px; margin-top: 6px; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; padding: 16px 32px; background: white; border-bottom: 1px solid #ddd; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+
+  .toets-info { background: #fff3cd; border-left: 4px solid #f0a500; padding: 12px 32px; font-size: 13px; }
+  .toets-info strong { color: #856404; }
+
+  .main { padding: 24px 32px; display: flex; flex-direction: column; gap: 24px; }
+
+  .cluster { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); overflow: hidden; }
+  .cluster-header { padding: 14px 20px; display: flex; align-items: center; gap: 10px; }
+  .cluster-header h2 { font-size: 16px; font-weight: 700; color: white; }
+  .cluster-header .theme-icon { font-size: 20px; }
+  .cluster-body { padding: 0; }
+
+  .connection-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; }
+  .col { padding: 14px 18px; border-right: 1px solid #eee; }
+  .col:last-child { border-right: none; }
+  .col-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; padding: 4px 8px; border-radius: 4px; display: inline-block; }
+
+  /* Color themes per source type */
+  .boek-header { background: #2563eb; }
+  .boek .col-title { background: #dbeafe; color: #1d4ed8; }
+  .boek-tag { background: #dbeafe; color: #1d4ed8; }
+
+  .theorie-header { background: #059669; }
+  .theorie .col-title { background: #d1fae5; color: #065f46; }
+  .theorie-tag { background: #d1fae5; color: #065f46; }
+
+  .pv-header { background: #7c3aed; }
+  .pv .col-title { background: #ede9fe; color: #5b21b6; }
+  .pv-tag { background: #ede9fe; color: #5b21b6; }
+
+  .expert-header { background: #dc2626; }
+  .expert .col-title { background: #fee2e2; color: #991b1b; }
+  .expert-tag { background: #fee2e2; color: #991b1b; }
+
+  /* Multi-source headers */
+  .mix1-header { background: #1a2a4a; }
+  .mix2-header { background: #0891b2; }
+  .mix3-header { background: #c2410c; }
+  .mix4-header { background: #15803d; }
+  .mix5-header { background: #7c2d92; }
+
+  .topic-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .topic-list li { font-size: 13px; padding: 4px 0; display: flex; align-items: flex-start; gap: 6px; }
+  .topic-list li::before { content: '→'; color: #999; flex-shrink: 0; font-size: 11px; padding-top: 2px; }
+
+  .tag { font-size: 11px; padding: 2px 7px; border-radius: 10px; font-weight: 600; white-space: nowrap; display: inline-block; }
+
+  .overlap-box { background: #fffbeb; border: 1px dashed #f59e0b; border-radius: 6px; padding: 10px 14px; margin: 12px 16px; font-size: 12px; color: #78350f; }
+  .overlap-box strong { color: #92400e; }
+
+  .divider { border: none; border-top: 1px solid #f3f4f6; margin: 4px 0; }
+
+  .note { font-style: italic; color: #888; font-size: 12px; margin-top: 6px; }
+
+  .leeruitkomsten { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); padding: 18px 20px; margin-bottom: 0; }
+  .leeruitkomsten h2 { font-size: 15px; font-weight: 700; color: #1a2a4a; margin-bottom: 12px; }
+  .lo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+  .lo-item { background: #f8fafc; border-left: 3px solid #2563eb; padding: 8px 12px; border-radius: 0 6px 6px 0; font-size: 13px; }
+  .lo-code { font-weight: 700; color: #2563eb; font-size: 11px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 Verbindingsoverzicht Toetsstof — Evenementenmanagement A</h1>
+  <p>Welke boekstof hoort bij welke PowerPoints? Alle verbindingen en overlappingen per thema.</p>
+</header>
+
+<div class="toets-info">
+  <strong>Toetsvorm:</strong> 80 meerkeuzevragen (juist/onjuist) &nbsp;|&nbsp; <strong>Voldoende:</strong> minimaal 60 goed &nbsp;|&nbsp;
+  <strong>Stof:</strong> Boek Projectmanagement (alle H) + PowerPoints Theorie + Projectvaardigheden + Expert-colleges
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#dbeafe;border:1px solid #93c5fd;"></div> Boek (Roel Grit)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d1fae5;border:1px solid #6ee7b7;"></div> Theorie PPT</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ede9fe;border:1px solid #c4b5fd;"></div> Projectvaardigheden PPT</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fee2e2;border:1px solid #fca5a5;"></div> Expert-college PPT</div>
+</div>
+
+<div class="main">
+
+  <!-- LEERUITKOMSTEN -->
+  <div class="leeruitkomsten">
+    <h2>🎯 Leeruitkomsten (wat wordt getoetst)</h2>
+    <div class="lo-grid">
+      <div class="lo-item"><div class="lo-code">1.3.1</div> Begrijpen de grondbeginselen van het ontwerpen en organiseren van evenementen.</div>
+      <div class="lo-item"><div class="lo-code">2.3.1</div> Herkennen en beschrijven de basisprincipes van projectmanagement.</div>
+      <div class="lo-item"><div class="lo-code">2.3.1</div> Kennis over belangrijkste projectvaardigheden, en hoe deze toe te passen in FM-context.</div>
+      <div class="lo-item"><div class="lo-code">1.3.1</div> Kunnen uitleggen wat de belangrijkste risico's zijn bij het organiseren van evenementen.</div>
+      <div class="lo-item"><div class="lo-code">2.3.1</div> Beschrijven een eenvoudige procesanalyse en benoemen diverse modellen procesanalyse.</div>
+      <div class="lo-item"><div class="lo-code">2.3.1</div> Herkennen communicatiemodellen en benoemen hoe je deze inzet in facilitaire processen.</div>
+      <div class="lo-item"><div class="lo-code">5.2.1</div> Beschrijven modellen geschikt voor het beheren van kwaliteit in een facilitaire context.</div>
+    </div>
+  </div>
+
+  <!-- CLUSTER 1: WAT IS EEN PROJECT -->
+  <div class="cluster">
+    <div class="cluster-header mix1-header">
+      <span class="theme-icon">🏗️</span>
+      <h2>THEMA 1: Wat is een project? — Begrippen & Fasering</h2>
+    </div>
+    <div class="cluster-body">
+      <div class="connection-grid">
+        <div class="col">
+          <div class="col-title boek-tag">📖 Boek H1: Het Project</div>
+          <ul class="topic-list">
+            <li>Improvisatie / routinematig / projectmatig werken</li>
+            <li>Kenmerken van een project (tijdelijk, uniek resultaat, budget)</li>
+            <li>Soorten projecten: technisch, sociaal, commercieel, gemengd, <strong>evenementen</strong></li>
+            <li>Traditionele fasering: Initiatief → Definitie → Ontwerp → Voorbereiding → Realisatie → Nazorg</li>
+            <li>Levenscyclus van een project</li>
+            <li>SMART-doelen</li>
+            <li>Maatschappelijk Verantwoord Projectmanagement (MVP) – 4 P's: Project, People, Plant, Profit</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="col-title theorie-tag">🟢 Theorie PPT – Week 1 (H1)</div>
+          <ul class="topic-list">
+            <li>Wat is een project? Soorten projecten</li>
+            <li>Faseren (traditioneel, waterval)</li>
+            <li>Doel van fasering (beslismomenten)</li>
+            <li>Levenscyclus</li>
+            <li>SMART</li>
+            <li>MVO / 4 P's</li>
+          </ul>
+          <p class="note">⟶ Directe vertaling van Boek H1</p>
+        </div>
+        <div class="col">
+          <div class="col-title pv-tag">🟣 PV Week 1 – Vergaderen (intro)</div>
+          <ul class="topic-list">
+            <li>Introductie: wat is een project? (terugverwijzing naar Grit)</li>
+            <li>Basisprincipes projectmanagement als kader voor de cursus</li>
+          </ul>
+          <p class="note">Licht overlap met H1 als context; focus ligt op vergaderen</p>
+        </div>
+      </div>
+      <div class="overlap-box">
+        <strong>🔗 Overlap:</strong> Boek H1 en Theorie Week 1 zijn vrijwel identiek. PV Week 1 raakt H1 aan als achtergrondkennis. Expert-college Evenementen bouwt ook voort op H1 (evenementen als soort project).
+      </div>
+    </div>
+  </div>
+
+  <!-- CLUSTER 2: MENSEN IN EEN PROJECT -->
+  <div class="cluster">
+    <div class="cluster-header mix2-header">
+      <span class="theme-icon">👥</span>
+      <h2>THEMA 2: Mensen in een project — Organisatie & Samenwerking</h2>
+    </div>
+    <div class="cluster-body">
+      <div class="connection-grid">
+        <div class="col">
+          <div class="col-title boek-tag">📖 Boek H2: Mensen en Projecten</div>
+          <ul class="topic-list">
+            <li>Lijnorganisatie vs. projectorganisatie (organigram, twee-bazen-probleem)</li>
+            <li>Functies: stuurgroep, werkgroep, opdrachtgever, projectleider</li>
+            <li>Stakeholders & omgeving</li>
+            <li>Leiderschap: taakgericht vs. mensgericht</li>
+            <li>Teambuilding & rolverdeling</li>
+            <li><strong>Teamrollen Belbin</strong> (9 rollen: Plant, Specialist, Monitor, Afmaker, Bedrijfsman, Vormer, Voorzitter, Groepswerker, Brononderzoeker)</li>
+            <li>Besluitvorming: meerderheid, consensus, unanimiteit</li>
+            <li>Creativiteit & brainstormen (spelregels)</li>
+            <li>Onderhandelen</li>
+            <li>Digitale samenwerking & communicatiekruispunt</li>
+            <li>Ethiek / IPMA gedragscode</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="col-title theorie-tag">🟢 Theorie PPT – H2 (Mensen en Projecten)</div>
+          <ul class="topic-list">
+            <li>Lijnorganisatie vs. projectorganisatie</li>
+            <li>Twee-bazen-probleem</li>
+            <li>Stuurgroep, werkgroepen, programma's</li>
+            <li>Stakeholders</li>
+            <li>Teamrollen Belbin</li>
+            <li>Projectafspraken & besluitvorming</li>
+            <li>Uitbesteden van een project</li>
+            <li>Culturele verschillen</li>
+          </ul>
+          <p class="note">⟶ Directe vertaling van Boek H2</p>
+        </div>
+        <div class="col">
+          <div class="col-title pv-tag">🟣 PV Week 2 – Brainstormen</div>
+          <ul class="topic-list">
+            <li>Wat is brainstormen?</li>
+            <li>Brainwriting (ideeën opschrijven, dan delen)</li>
+            <li>635-methode (zie ook template in map)</li>
+            <li>Spelregels brainstormsessie</li>
+          </ul>
+          <p class="note">⟶ Uitdieping van Boek H2 "Creativiteit & brainstormen"</p>
+        </div>
+        <div class="col">
+          <div class="col-title pv-tag">🟣 PV Week 4 – Vergaderen deel II</div>
+          <ul class="topic-list">
+            <li>Terugblik op teamrollen (Belbin)</li>
+            <li>Projectteamrollen in evenementencontext (veiligheidscoördinator, F&B, marketing etc.)</li>
+            <li>Effectief / inefficiënt vergaderen</li>
+          </ul>
+          <p class="note">⟶ Koppelt Boek H2 (teamrollen) aan Boek H8 (vergaderen)</p>
+        </div>
+      </div>
+      <div class="overlap-box">
+        <strong>🔗 Overlap:</strong> Belbin-rollen komen voor in Boek H2, Theorie H2, PV Week 4 én Expert-college Evenementen (projectteam). Brainstormen staat in Boek H2 én PV Week 2. Besluitvorming staat in Boek H2 én Theorie H2.
+      </div>
+    </div>
+  </div>
+
+  <!-- CLUSTER 3: PROJECT BEGIN TOT EIND + BEHEERSASPECTEN -->
+  <div class="cluster">
+    <div class="cluster-header mix3-header">
+      <span class="theme-icon">📊</span>
+      <h2>THEMA 3: Project van begin tot eind — Beheersaspecten & Risico's</h2>
+    </div>
+    <div class="cluster-body">
+      <div class="connection-grid">
+        <div class="col">
+          <div class="col-title boek-tag">📖 Boek H3: Begin tot eind</div>
+          <ul class="topic-list">
+            <li>Aanleiding tot project (spontaan, SWOT)</li>
+            <li>Projectvoorstel & haalbaarheidsonderzoek (go/no-go)</li>
+            <li>Projectstart-up / kick-off vergadering</li>
+            <li>Ontwerp & voorbereiding, uitvoering, afsluiting</li>
+            <li><strong>Beheersaspecten GOKIT</strong> (ook: TGKIO / KOFTIG):<br>Geld, Organisatie, Kwaliteit, Informatie, Tijd</li>
+            <li>Risico's van projecten (kans × gevolg)</li>
+            <li>Risicobeheersing: voorkomen, verminderen, overdragen, accepteren</li>
+            <li>Uitbesteden: voor- en nadelen</li>
+            <li>Projectmanagementmethoden: SDM, Scrum, PRINCE2, PMW, P6</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="col-title theorie-tag">🟢 Theorie PPT – H3</div>
+          <ul class="topic-list">
+            <li>Aanleiding, projectvoorstel</li>
+            <li>Beheersaspecten (GOKIT)</li>
+            <li>Risico's & risicobeheersing</li>
+            <li>Projectmanagementmethoden (overzicht)</li>
+          </ul>
+          <p class="note">⟶ Directe vertaling van Boek H3</p>
+        </div>
+        <div class="col">
+          <div class="col-title expert-tag">🔴 Expert-college BEC (Financiën)</div>
+          <ul class="topic-list">
+            <li>Beheersaspecten: <strong>KOFTIG</strong> (Kwaliteit, Organisatie, Facilitair, Tijd, Informatie, Geld)</li>
+            <li>Soorten kosten: vaste vs. variabele kosten</li>
+            <li>Categorieën kosten (1000: locatie, 2000: promotie, 3000: tech, etc.)</li>
+            <li>Begroting opstellen, budgetteren</li>
+            <li>Penningmeester & traceerbaarheid/administratie</li>
+          </ul>
+          <p class="note">⟶ Praktische uitwerking van GOKIT/KOFTIG uit Boek H3 + kosten-baten uit H6</p>
+        </div>
+        <div class="col">
+          <div class="col-title expert-tag">🔴 Expert-college Recht</div>
+          <ul class="topic-list">
+            <li>Evenementenvergunning (APV, melding vs. vergunning)</li>
+            <li>Risico's: openbare orde, veiligheid, financieel</li>
+            <li>Aansprakelijkheid & zorgplicht</li>
+            <li>Verzekeringen (annulering, WA, etc.)</li>
+            <li>Contracten / verbintenissenrecht</li>
+            <li>Muziekrecht (BUMA/STEMRA, Sena)</li>
+            <li>AVG & promotiebeelden</li>
+          </ul>
+          <p class="note">⟶ Specifieke invulling van risico's (Boek H3) in evenementencontext</p>
+        </div>
+      </div>
+      <div class="overlap-box">
+        <strong>🔗 Overlap:</strong> GOKIT/TGKIO/KOFTIG is <em>dezelfde</em> term, anders gespeld — staat in Boek H3, Theorie H3 én Expert BEC. Risico's staan in Boek H3 én Expert Recht (juridische risico's) én Expert Evenementen.
+      </div>
+    </div>
+  </div>
+
+  <!-- CLUSTER 4: PLANNING -->
+  <div class="cluster">
+    <div class="cluster-header mix4-header">
+      <span class="theme-icon">📅</span>
+      <h2>THEMA 4: Planning</h2>
+    </div>
+    <div class="cluster-body">
+      <div class="connection-grid">
+        <div class="col">
+          <div class="col-title boek-tag">📖 Boek H4: Planning</div>
+          <ul class="topic-list">
+            <li>Doel van een planning (organiseren, doorlooptijd, kosten)</li>
+            <li>Activiteitentabel</li>
+            <li>Netwerkplanning (afhankelijkheden, kritische pad)</li>
+            <li>Strokenplanning (Gantt-chart)</li>
+            <li>Bijstellen van een planning</li>
+            <li>Planningssoftware</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="col-title theorie-tag">🟢 Theorie PPT – H4 (Planning)</div>
+          <ul class="topic-list">
+            <li>Waarom plannen?</li>
+            <li>Begrippen (doorlooptijd, werktijd)</li>
+            <li>Strokenplanning</li>
+            <li>Netwerkplanning</li>
+            <li>Strokenplanning uit netwerkplanning afleiden</li>
+            <li>Bijstelling van planning</li>
+            <li>Plannen van grote projecten</li>
+          </ul>
+          <p class="note">⟶ Directe vertaling van Boek H4</p>
+        </div>
+      </div>
+      <div class="overlap-box">
+        <strong>🔗 Overlap:</strong> Planning is ook onderdeel van het Plan van Aanpak (H6) — een planning hóórt in een PvA. Strokenplanning is een praktisch hulpmiddel dat ook terugkomt in Expert BEC (budgetplanning) en PV vergaderen (projectplanning evenement).
+      </div>
+    </div>
+  </div>
+
+  <!-- CLUSTER 5: 6P METHODE + PLAN VAN AANPAK -->
+  <div class="cluster">
+    <div class="cluster-header mix5-header">
+      <span class="theme-icon">📋</span>
+      <h2>THEMA 5: 6P-Methode & Plan van Aanpak</h2>
+    </div>
+    <div class="cluster-body">
+      <div class="connection-grid">
+        <div class="col">
+          <div class="col-title boek-tag">📖 Boek H5: De 6P-methode</div>
+          <ul class="topic-list">
+            <li>6P-methode vs. traditionele watervalfasering</li>
+            <li><strong>De 6 P's:</strong> Probleemstelling, Projectdoelstelling, Projectresultaat, Projectgrenzen, Projectactiviteiten, Planning</li>
+            <li>Uitvoeringsfasen: oriëntatie, definitie, ontwerp, voorbereiding, realisatie, nazorg</li>
+            <li>Managen van uitvoeringsfasen</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="col-title boek-tag">📖 Boek H6: Plan van Aanpak</div>
+          <ul class="topic-list">
+            <li>Doel en structuur van een PvA</li>
+            <li>Hoofdstukken PvA: aanleiding, projectdefinitie (6P's), planning, organisatie, kosten-baten, risicoanalyse</li>
+            <li>Projectbegroting (kosten en baten)</li>
+            <li>Kosten-batenanalyse</li>
+            <li>Risicoanalyse (kans × gevolg tabel)</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="col-title theorie-tag">🟢 Theorie PPT – H5&6 (6P + PvA)</div>
+          <ul class="topic-list">
+            <li>Traditionele fasering herhaling</li>
+            <li>Introductie 6P-methode</li>
+            <li>Doel Plan van Aanpak</li>
+            <li>Hoofdstukken PvA</li>
+          </ul>
+          <p class="note">⟶ Vertaling Boek H5 + H6</p>
+        </div>
+        <div class="col">
+          <div class="col-title theorie-tag">🟢 Theorie PPT – H5 Uitvoeringsfasen</div>
+          <ul class="topic-list">
+            <li>Uitvoeringsfasen van 6P-methode</li>
+            <li>Managen van uitvoeringsfasen</li>
+          </ul>
+          <p class="note">⟶ Verdieping Boek H5</p>
+        </div>
+      </div>
+      <div class="overlap-box">
+        <strong>🔗 Overlap:</strong> De 6P's zijn de kern van het Plan van Aanpak — H5 en H6 zijn onlosmakelijk verbonden. Risicoanalyse staat zowel in H6 als in H3 (risicobeheersing). Kosten-baten staat zowel in H6 als in Expert BEC. Traditionele fasering (H1) keert hier terug als vergelijking.
+      </div>
+    </div>
+  </div>
+
+  <!-- CLUSTER 6: AGILE & SCRUM -->
+  <div class="cluster">
+    <div class="cluster-header" style="background:#0891b2;">
+      <span class="theme-icon">🔄</span>
+      <h2>THEMA 6: Agile & Scrum</h2>
+    </div>
+    <div class="cluster-body">
+      <div class="connection-grid">
+        <div class="col">
+          <div class="col-title boek-tag">📖 Boek H7: Agile en Scrum</div>
+          <ul class="topic-list">
+            <li>Agile als manier van denken (wendbaar, snel inspelen)</li>
+            <li>Kenmerken agile: kleine eenheden, korte cycli, vroeg & frequent opleveren</li>
+            <li>Scrum: product backlog, sprints, scrum master, daily standup</li>
+            <li>Verschil waterval vs. agile/scrum</li>
+            <li>Wanneer gebruik je welke methode?</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="col-title pv-tag">🟣 PV Week 6 – Scrum & Agile</div>
+          <ul class="topic-list">
+            <li>Wat is Agile / Scrum?</li>
+            <li>Kenmerken agile projecten</li>
+            <li>Sprint, backlog, standup</li>
+            <li>Toepassing in projectgroep</li>
+          </ul>
+          <p class="note">⟶ Directe vertaling van Boek H7</p>
+        </div>
+      </div>
+      <div class="overlap-box">
+        <strong>🔗 Overlap:</strong> Scrum wordt ook kort vermeld in Boek H3 (projectmanagementmethoden: Scrum voor als de opdrachtgever niet precies weet wat hij wil). Agile staat tegenover de watervalfasering uit H1 en H5.
+      </div>
+    </div>
+  </div>
+
+  <!-- CLUSTER 7: VERGADEREN -->
+  <div class="cluster">
+    <div class="cluster-header" style="background:#b45309;">
+      <span class="theme-icon">🗣️</span>
+      <h2>THEMA 7: Vergaderen</h2>
+    </div>
+    <div class="cluster-body">
+      <div class="connection-grid">
+        <div class="col">
+          <div class="col-title boek-tag">📖 Boek H8: Projectvergaderingen</div>
+          <ul class="topic-list">
+            <li>Soorten vergaderingen in een project</li>
+            <li>Vergaderagenda opstellen</li>
+            <li>Rollen: voorzitter, notulist</li>
+            <li>Notuleren: besluitenlijst, actiepunten</li>
+            <li>Effectief vergaderen: DO's en DON'Ts</li>
+            <li>Online vergaderen</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="col-title pv-tag">🟣 PV Week 1 – Basisprincipes vergaderen</div>
+          <ul class="topic-list">
+            <li>Basisprincipes vergaderen</li>
+            <li>Agenda opstellen</li>
+            <li>Rollen voorzitter & notulist</li>
+            <li>Template vergaderen (zie ook Templates-map)</li>
+            <li>Template notuleren</li>
+          </ul>
+          <p class="note">⟶ Directe uitwerking Boek H8</p>
+        </div>
+        <div class="col">
+          <div class="col-title pv-tag">🟣 PV Week 4 – Vergaderen deel II</div>
+          <ul class="topic-list">
+            <li>Verdieping: wat maakt een vergadering inefficiënt?</li>
+            <li>Teamrollen in de vergadering (koppeling Belbin / H2)</li>
+            <li>Projectteamrollen evenement</li>
+            <li>Gebruik templates</li>
+          </ul>
+          <p class="note">⟶ Verdieping H8 + koppeling H2 (teamrollen)</p>
+        </div>
+      </div>
+      <div class="overlap-box">
+        <strong>🔗 Overlap:</strong> Vergaderen (H8 + PV W1 + PV W4) hangt nauw samen met Teamrollen (H2). De kick-off vergadering uit H3 is ook een vergadermoment. Templates in de map zijn rechtstreeks verbonden met PV Week 1 en 4.
+      </div>
+    </div>
+  </div>
+
+  <!-- CLUSTER 8: SCHRIJVEN & RAPPORTEREN -->
+  <div class="cluster">
+    <div class="cluster-header" style="background:#065f46;">
+      <span class="theme-icon">✍️</span>
+      <h2>THEMA 8: Schrijven — Rapport & Managementsamenvatting</h2>
+    </div>
+    <div class="cluster-body">
+      <div class="connection-grid">
+        <div class="col">
+          <div class="col-title boek-tag">📖 Boek H10: Een rapport schrijven</div>
+          <ul class="topic-list">
+            <li>Structuur van een rapport (titelblad, inhoudsopgave, samenvatting, inleiding, kern, conclusie, bijlagen)</li>
+            <li>Taalgebruik & APA-bronvermelding</li>
+            <li>Checklist taal</li>
+            <li>Doelgroep en doel</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="col-title boek-tag">📖 Boek H12: Managementsamenvatting</div>
+          <ul class="topic-list">
+            <li>Doel van een managementsamenvatting</li>
+            <li>Verantwoording van projectresultaat</li>
+            <li>Wat staat erin: conclusies, aanbevelingen, financiën</li>
+            <li>Schrijfstijl: bondig, voor niet-vakspecialisten</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="col-title pv-tag">🟣 PV Week 5 – Projectrapport schrijven</div>
+          <ul class="topic-list">
+            <li>Structuur van een rapport</li>
+            <li>Checklist taal + APA-rich</li>
+            <li>Gebruik van formats en templates</li>
+          </ul>
+          <p class="note">⟶ Directe vertaling Boek H10</p>
+        </div>
+        <div class="col">
+          <div class="col-title pv-tag">🟣 PV Week 7 – Managementsamenvatting</div>
+          <ul class="topic-list">
+            <li>Wat is een managementsamenvatting?</li>
+            <li>Verantwoording projectresultaat</li>
+            <li>Conclusies & aanbevelingen</li>
+          </ul>
+          <p class="note">⟶ Directe vertaling Boek H12</p>
+        </div>
+      </div>
+      <div class="overlap-box">
+        <strong>🔗 Overlap:</strong> Een managementsamenvatting (H12) is vaak het eerste hoofdstuk van een rapport (H10) — ze zijn structureel verbonden. Beide zijn vaardigheden die ook in het Plan van Aanpak (H6) terugkomen.
+      </div>
+    </div>
+  </div>
+
+  <!-- CLUSTER 9: PITCHEN & PRESENTEREN -->
+  <div class="cluster">
+    <div class="cluster-header" style="background:#6d28d9;">
+      <span class="theme-icon">🎤</span>
+      <h2>THEMA 9: Presenteren & Pitchen</h2>
+    </div>
+    <div class="cluster-body">
+      <div class="connection-grid">
+        <div class="col">
+          <div class="col-title boek-tag">📖 Boek H11: Een presentatie houden</div>
+          <ul class="topic-list">
+            <li>Voorbereiding: structuur, doelgroep, doel</li>
+            <li>Opbouw: opening, kern, afsluiting</li>
+            <li>Gebruik van slides</li>
+            <li>Non-verbale communicatie</li>
+            <li>Omgaan met vragen</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="col-title pv-tag">🟣 PV Week 3 – Leren pitchen</div>
+          <ul class="topic-list">
+            <li>Wat is een pitch? (opening, probleem, oplossing, USP, bewijs, call-to-action)</li>
+            <li>Oefeningen</li>
+            <li>Pitch-format voor projectvoorstel</li>
+            <li>Feedback geven & ontvangen</li>
+          </ul>
+          <p class="note">⟶ Praktische toepassing van Boek H11 in evenementencontext</p>
+        </div>
+      </div>
+      <div class="overlap-box">
+        <strong>🔗 Overlap:</strong> Pitchen is een compacte presentatie — H11 en PV Week 3 zijn nauw verwant. Pitchen van een projectvoorstel sluit aan op de aanleiding/projectvoorstel uit H3.
+      </div>
+    </div>
+  </div>
+
+  <!-- CLUSTER 10: EVENEMENTEN -->
+  <div class="cluster">
+    <div class="cluster-header" style="background:#be185d;">
+      <span class="theme-icon">🎪</span>
+      <h2>THEMA 10: Evenementen — Organisatie, Marketing & Recht</h2>
+    </div>
+    <div class="cluster-body">
+      <div class="connection-grid">
+        <div class="col">
+          <div class="col-title expert-tag">🔴 Expert-college Evenementen</div>
+          <ul class="topic-list">
+            <li>Definitie evenement (Herlé, Verhaar)</li>
+            <li>Evenement vs. project (waarom projectmatig?)</li>
+            <li>Geschiedenis van evenementen</li>
+            <li>Doelen van events: informatief, educatief, commercieel, beleidsvorming, consumptie</li>
+            <li>Soorten evenementen (EMBOK-categorisering, Berridge)</li>
+            <li>Kenmerken: duur, locatie, omvang, toegang, doelgroep</li>
+            <li>Risico's van evenementen</li>
+            <li>Stakeholders & projectteam (promotie, financiën, logistiek, veiligheid)</li>
+            <li>Rol FM bij evenementen</li>
+            <li>Competenties eventmanager</li>
+            <li>Cijfers & trends (VKOZ, Respons 2025, Europese festivals)</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="col-title expert-tag">🔴 Expert-college Recht</div>
+          <ul class="topic-list">
+            <li>Evenementenrecht (publiekrecht / privaatrecht)</li>
+            <li>Vergunningsplicht (APV, melding vs. vergunning)</li>
+            <li>Aansprakelijkheid & zorgplicht</li>
+            <li>Verzekeringen (annulering, WA)</li>
+            <li>Contracten & verbintenissenrecht (aanbod + aanvaarding)</li>
+            <li>Muziekrecht: BUMA/STEMRA, Sena, licenties</li>
+            <li>AVG: persoonsgegevens & promotiemateriaal</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="col-title expert-tag">🔴 Expert-les Marketing</div>
+          <ul class="topic-list">
+            <li>Basis evenementenmarketing</li>
+            <li>De 3 E's van eventmarketing (Entertainment, Excitement, Enterprise)</li>
+            <li>Marketingdoelstellingen (cognitief/affectief/conatief)</li>
+            <li>Doelgroepsbepaling & marktsegmentatie (geografisch, demografisch, psychografisch)</li>
+            <li>Empathy map</li>
+            <li>Marketingstrategie & concept</li>
+            <li><strong>5 P's evenementenmarketing</strong> (Product, Prijs, Plaats, Promotie, + Proces?)</li>
+            <li>Marketingcommunicatie (crossmedia, spanningsboog)</li>
+            <li>Marketingcommunicatieplanning (wat / wanneer / door wie)</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="col-title boek-tag">📖 Boek H1 — verbinding</div>
+          <ul class="topic-list">
+            <li>Evenementen als projectsoort (uniek projectresultaat op vast moment)</li>
+          </ul>
+          <div class="col-title boek-tag" style="margin-top:12px;">📖 Boek H3 — verbinding</div>
+          <ul class="topic-list">
+            <li>Risico's & beheersaspecten (GOKIT)</li>
+            <li>Stakeholders</li>
+          </ul>
+        </div>
+      </div>
+      <div class="overlap-box">
+        <strong>🔗 Overlap:</strong> Alle drie de expert-colleges spelen zich af rond evenementen als context. Ze bouwen allemaal voort op de projectmanagementprincipes uit Boek H1–H6. Risico's verbinden Recht + Evenementen + Boek H3. Stakeholders staan in Boek H2, H3 én Expert Evenementen.
+      </div>
+    </div>
+  </div>
+
+  <!-- GROTE VERBINDINGSKAART -->
+  <div class="cluster">
+    <div class="cluster-header" style="background:#374151;">
+      <span class="theme-icon">🗺️</span>
+      <h2>RODE DRADEN — Concepten die door alles heen lopen</h2>
+    </div>
+    <div class="cluster-body" style="padding:16px 20px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;">
+
+        <div style="background:#eff6ff;border-radius:8px;padding:12px 14px;border-left:4px solid #2563eb;">
+          <strong>🔑 Fasering van projecten</strong>
+          <p style="margin-top:6px;font-size:12px;color:#444;">Boek H1 (traditioneel: Init→Def→Ont→Voorbereiding→Realisatie→Nazorg) → H5 (6P-methode als alternatief) → H7 (Agile/Scrum als flexibel alternatief) → Theorie W1, H5&6 → PV W6</p>
+        </div>
+
+        <div style="background:#f0fdf4;border-radius:8px;padding:12px 14px;border-left:4px solid #16a34a;">
+          <strong>🔑 GOKIT / TGKIO / KOFTIG</strong>
+          <p style="margin-top:6px;font-size:12px;color:#444;">Zelfde beheersaspecten, andere volgorde: Boek H3 (GOKIT) + Theorie H3 + Expert BEC (KOFTIG). Let op: het gaat altijd om Geld, Organisatie, Kwaliteit, Informatie, Tijd!</p>
+        </div>
+
+        <div style="background:#fdf4ff;border-radius:8px;padding:12px 14px;border-left:4px solid #9333ea;">
+          <strong>🔑 Teamrollen (Belbin)</strong>
+          <p style="margin-top:6px;font-size:12px;color:#444;">Boek H2 (theorie) → Theorie H2 (uitleg) → PV Week 4 (toegepast in vergaderen) → Expert Evenementen (rollen in eventteam) → Expert BEC (penningmeester als Monitor/Specialist)</p>
+        </div>
+
+        <div style="background:#fff7ed;border-radius:8px;padding:12px 14px;border-left:4px solid #ea580c;">
+          <strong>🔑 Risico's</strong>
+          <p style="margin-top:6px;font-size:12px;color:#444;">Boek H3 (risicobeheersing: voorkomen/verminderen/overdragen/accepteren) → Boek H6 (risicoanalyse in PvA) → Expert Recht (juridische risico's) → Expert Evenementen (risico's van events)</p>
+        </div>
+
+        <div style="background:#fef2f2;border-radius:8px;padding:12px 14px;border-left:4px solid #dc2626;">
+          <strong>🔑 Stakeholders</strong>
+          <p style="margin-top:6px;font-size:12px;color:#444;">Boek H2 (theorie) + Theorie H2 → Boek H3 (communicatiekruispunt) → Expert Evenementen (stakeholders bij events) → Expert Marketing (doelgroepen)</p>
+        </div>
+
+        <div style="background:#f0f9ff;border-radius:8px;padding:12px 14px;border-left:4px solid #0ea5e9;">
+          <strong>🔑 Plan van Aanpak</strong>
+          <p style="margin-top:6px;font-size:12px;color:#444;">Boek H1 (intro) → H3 (aanleiding + projectvoorstel) → H4 (planning erin) → H5 (6P's = kern van PvA) → H6 (volledig PvA) → Theorie H5&6 → Expert BEC (begroting in PvA)</p>
+        </div>
+
+        <div style="background:#fefce8;border-radius:8px;padding:12px 14px;border-left:4px solid #ca8a04;">
+          <strong>🔑 Evenement = Project</strong>
+          <p style="margin-top:6px;font-size:12px;color:#444;">Boek H1 (evenementen als projectsoort) ↔ Expert-college Evenementen (waarom pak je event projectmatig aan?) — deze verbinding is een sleutelkoppeling voor de toets.</p>
+        </div>
+
+        <div style="background:#f0fdf4;border-radius:8px;padding:12px 14px;border-left:4px solid #059669;">
+          <strong>🔑 Communicatie & Schrijven</strong>
+          <p style="margin-top:6px;font-size:12px;color:#444;">Boek H8 (vergaderen) + H10 (rapport) + H11 (presentatie) + H12 (mgmt-samenvatting) → PV Week 1, 4, 5, 7 werken dit stuk voor stuk praktisch uit.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- BOEK HOOFDSTUK MAPPING TABEL -->
+  <div class="cluster">
+    <div class="cluster-header" style="background:#1e293b;">
+      <span class="theme-icon">📌</span>
+      <h2>SNELLE MAPPING — Elk boekhoofstuk → bijbehorende PowerPoint(s)</h2>
+    </div>
+    <div class="cluster-body" style="padding:16px 20px; overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+        <thead>
+          <tr style="background:#f1f5f9;">
+            <th style="text-align:left;padding:8px 12px;border-bottom:2px solid #e2e8f0;">Boekhoofstuk</th>
+            <th style="text-align:left;padding:8px 12px;border-bottom:2px solid #e2e8f0;">Theorie PPT</th>
+            <th style="text-align:left;padding:8px 12px;border-bottom:2px solid #e2e8f0;">Projectvaardigheden PPT</th>
+            <th style="text-align:left;padding:8px 12px;border-bottom:2px solid #e2e8f0;">Expert-college</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #f1f5f9;">
+            <td style="padding:8px 12px;"><strong>H1</strong> – Het project, fasering, SMART, MVO</td>
+            <td style="padding:8px 12px;"><span class="tag theorie-tag">Week 1 (H1)</span></td>
+            <td style="padding:8px 12px;"><span class="tag pv-tag">PV Week 1 (intro)</span></td>
+            <td style="padding:8px 12px;"><span class="tag expert-tag">Expert Evenementen</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;background:#fafafa;">
+            <td style="padding:8px 12px;"><strong>H2</strong> – Lijnorg, stakeholders, Belbin, besluitvorming, brainstormen</td>
+            <td style="padding:8px 12px;"><span class="tag theorie-tag">H2 PPT</span></td>
+            <td style="padding:8px 12px;"><span class="tag pv-tag">PV Week 2</span> <span class="tag pv-tag">PV Week 4</span></td>
+            <td style="padding:8px 12px;"><span class="tag expert-tag">Expert Evenementen</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;">
+            <td style="padding:8px 12px;"><strong>H3</strong> – Begin tot eind, GOKIT, risico's, projectvoorstel</td>
+            <td style="padding:8px 12px;"><span class="tag theorie-tag">H3 PPT</span></td>
+            <td style="padding:8px 12px;">—</td>
+            <td style="padding:8px 12px;"><span class="tag expert-tag">Expert BEC</span> <span class="tag expert-tag">Expert Recht</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;background:#fafafa;">
+            <td style="padding:8px 12px;"><strong>H4</strong> – Planning, strokenplanning, netwerkplanning</td>
+            <td style="padding:8px 12px;"><span class="tag theorie-tag">H4 PPT</span></td>
+            <td style="padding:8px 12px;">—</td>
+            <td style="padding:8px 12px;">—</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;">
+            <td style="padding:8px 12px;"><strong>H5</strong> – 6P-methode, uitvoeringsfasen</td>
+            <td style="padding:8px 12px;"><span class="tag theorie-tag">H5&6 PPT</span> <span class="tag theorie-tag">H5 Uitvoering PPT</span></td>
+            <td style="padding:8px 12px;">—</td>
+            <td style="padding:8px 12px;">—</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;background:#fafafa;">
+            <td style="padding:8px 12px;"><strong>H6</strong> – Plan van Aanpak, kosten-baten, risicoanalyse</td>
+            <td style="padding:8px 12px;"><span class="tag theorie-tag">H5&6 PPT</span></td>
+            <td style="padding:8px 12px;">—</td>
+            <td style="padding:8px 12px;"><span class="tag expert-tag">Expert BEC</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;">
+            <td style="padding:8px 12px;"><strong>H7</strong> – Agile & Scrum</td>
+            <td style="padding:8px 12px;">—</td>
+            <td style="padding:8px 12px;"><span class="tag pv-tag">PV Week 6</span></td>
+            <td style="padding:8px 12px;">—</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;background:#fafafa;">
+            <td style="padding:8px 12px;"><strong>H8</strong> – Projectvergaderingen</td>
+            <td style="padding:8px 12px;">—</td>
+            <td style="padding:8px 12px;"><span class="tag pv-tag">PV Week 1</span> <span class="tag pv-tag">PV Week 4</span></td>
+            <td style="padding:8px 12px;">—</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;">
+            <td style="padding:8px 12px;"><strong>H9</strong> – Interview afnemen</td>
+            <td style="padding:8px 12px;">—</td>
+            <td style="padding:8px 12px;"><em style="color:#888;">Geen directe PPT</em></td>
+            <td style="padding:8px 12px;">—</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;background:#fafafa;">
+            <td style="padding:8px 12px;"><strong>H10</strong> – Rapport schrijven</td>
+            <td style="padding:8px 12px;">—</td>
+            <td style="padding:8px 12px;"><span class="tag pv-tag">PV Week 5</span></td>
+            <td style="padding:8px 12px;">—</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;">
+            <td style="padding:8px 12px;"><strong>H11</strong> – Presentatie houden</td>
+            <td style="padding:8px 12px;">—</td>
+            <td style="padding:8px 12px;"><span class="tag pv-tag">PV Week 3</span></td>
+            <td style="padding:8px 12px;">—</td>
+          </tr>
+          <tr style="background:#fafafa;">
+            <td style="padding:8px 12px;"><strong>H12</strong> – Managementsamenvatting</td>
+            <td style="padding:8px 12px;">—</td>
+            <td style="padding:8px 12px;"><span class="tag pv-tag">PV Week 7</span></td>
+            <td style="padding:8px 12px;">—</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="overlap-box" style="margin:16px 0 4px 0;">
+        <strong>💡 Let op H9 (Interview afnemen):</strong> Dit boekhoofstuk heeft geen directe eigen PPT, maar de vaardigheden komen indirect terug in onderzoeksopdrachten en de 6P-methode (informatie verzamelen). Dit hoofdstuk wordt dus alleen vanuit het boek getoetst.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer style="text-align:center;padding:16px;color:#999;font-size:12px;background:white;border-top:1px solid #eee;margin-top:8px;">
+  Overzicht gemaakt op basis van alle beschikbare toetsstof — Evenementenmanagement A &nbsp;|&nbsp; Succes morgen! 🎓
+</footer>
+
+</body>
+</html>
